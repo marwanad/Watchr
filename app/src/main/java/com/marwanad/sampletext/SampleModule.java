@@ -37,7 +37,7 @@ public class SampleModule
     {
         Socket socket;
         try {
-            socket = IO.socket("http://10.9.244.80:3000");
+            socket = IO.socket("http://10.9.244.80:4000");
         }
         catch (URISyntaxException e) {
             throw new RuntimeException(e);
