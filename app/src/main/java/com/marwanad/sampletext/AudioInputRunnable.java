@@ -1,6 +1,6 @@
 package com.marwanad.sampletext;
 
-import android.media.AudioFormat;
+import android.media.AudioRecord;
 import android.media.MediaRecorder;
 
 /**
@@ -8,10 +8,22 @@ import android.media.MediaRecorder;
  */
 public class AudioInputRunnable implements Runnable
 {
-    int mSampleRate = AudioUtils.SAMPLE_RATE_HZ;
-    int mAudioSource = MediaRecorder.AudioSource.VOICE_RECOGNITION;
-    final int mChannelConfig = AudioFormat.CHANNEL_IN_MONO;
-    final int mAudioFormat = AudioFormat.ENCODING_PCM_16BIT;
+    AudioRecord _audioRecorder;
+    private int _sampleRate = AudioUtils.SAMPLE_RATE_HZ;
+    private int _audioSource = MediaRecorder.AudioSource.MIC;
+    final int _channelConfig = AudioUtils.CHANNEL_CONFIG;
+    final int _audioFormat = AudioUtils.AUDIO_FORMAT;
+
+    int _totalNumberOfSamples = 0;
+
+    private final AudioInputListener _audioListener;
+    private Thread _audioInputThread;
+    private boolean _isRunning;
+
+    public AudioInputRunnable(AudioInputListener listener)
+    {
+        _audioListener = listener;
+    }
 
     @Override
     public void run()

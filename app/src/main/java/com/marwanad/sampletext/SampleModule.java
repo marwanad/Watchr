@@ -1,8 +1,8 @@
 package com.marwanad.sampletext;
 
-import android.content.Context;
-
 import javax.inject.Singleton;
+
+import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
