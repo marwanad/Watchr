@@ -15,25 +15,13 @@
  */
 
 package com.google.android.gms.location.sample.locationupdates;
-
-import android.content.Context;
 import android.location.Location;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.Formatter;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -41,22 +29,8 @@ import com.google.android.gms.location.LocationServices;
 import java.text.DateFormat;
 import java.util.Date;
 
-/**
- * Getting Location Updates.
- *
- * Demonstrates how to use the Fused Location Provider API to get updates about a device's
- * location. The Fused Location Provider is part of the Google Play services location APIs.
- *
- * For a simpler example that shows the use of Google Play services to fetch the last known location
- * of a device, see
- * https://github.com/googlesamples/android-play-location/tree/master/BasicLocation.
- *
- * This sample uses Google Play services, but it does not require authentication. For a sample that
- * uses Google Play services for authentication, see
- * https://github.com/googlesamples/android-google-accounts/tree/master/QuickStart.
- */
 public class MainActivity extends AppCompatActivity implements
-        ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+        ConnectionCallbacks, LocationListener {
 
     protected static final String TAG = "location-updates-sample";
 
@@ -178,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements
         Log.i(TAG, "Building GoogleApiClient");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
         createLocationRequest();
@@ -230,53 +203,11 @@ public class MainActivity extends AppCompatActivity implements
                 String.valueOf(mCurrentLocation.getLongitude()));
     }
 
-    /**
-     * Removes location updates from the FusedLocationApi.
-     */
-    protected void stopLocationUpdates() {
-        // It is a good practice to remove location requests when the activity is in a paused or
-        // stopped state. Doing so helps battery performance and is especially
-        // recommended in applications that request frequent location updates.
-
-        // The final argument to {@code requestLocationUpdates()} is a LocationListener
-        // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Within {@code onPause()}, we pause location updates, but leave the
-        // connection to GoogleApiClient intact.  Here, we resume receiving
-        // location updates if the user has requested them.
-
-        if (mGoogleApiClient.isConnected() && mRequestingLocationUpdates) {
-            startLocationUpdates();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
-        if (mGoogleApiClient.isConnected()) {
-            stopLocationUpdates();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-
-        super.onStop();
-    }
-
     /**
      * Runs when a GoogleApiClient object successfully connects.
      */
@@ -324,13 +255,6 @@ public class MainActivity extends AppCompatActivity implements
         // attempt to re-establish the connection.
         Log.i(TAG, "Connection suspended");
         mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
-        // onConnectionFailed.
-        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
 
 
