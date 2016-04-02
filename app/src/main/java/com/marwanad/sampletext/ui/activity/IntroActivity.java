@@ -1,13 +1,19 @@
 package com.marwanad.sampletext.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.marwanad.sampletext.R;
+import com.marwanad.sampletext.SampleApplication;
 import com.marwanad.sampletext.SampleService;
 import com.marwanad.sampletext.ui.intro.fragment.IntroFragment;
+
+import javax.inject.Inject;
 
 /**
  * Created by marwanad on 2016-04-02.
@@ -15,9 +21,16 @@ import com.marwanad.sampletext.ui.intro.fragment.IntroFragment;
  */
 public class IntroActivity extends AppIntro2
 {
+    @Inject SharedPreferences _sharedPrefs;
+    private static final String HAS_ACCEPTED = "intro.activity.accepted";
+
     @Override
     public void init(@Nullable Bundle savedInstanceState)
     {
+        ((SampleApplication) getApplication()).getSampleComponent().inject(this);
+        if (_sharedPrefs.getBoolean(HAS_ACCEPTED, false)) {
+            finish();
+        }
         addSlide(IntroFragment.newInstance(R.layout.intro_frag_one));
         addSlide(IntroFragment.newInstance(R.layout.intro_frag_two));
         addSlide(IntroFragment.newInstance(R.layout.intro_frag_three));
@@ -26,13 +39,37 @@ public class IntroActivity extends AppIntro2
     @Override
     public void onDonePressed()
     {
-        startService(new Intent(this, SampleService.class));
+        showConfirmDialog();
     }
 
     @Override
     public void onNextPressed()
     {
 
+    }
+
+    private void showConfirmDialog()
+    {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(IntroActivity.this);
+        builder.setTitle("Are you sure you want to proceed?");
+        builder.setMessage("You agree to.");
+        builder.setPositiveButton("Tru", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                startService();
+                _sharedPrefs.edit().putBoolean(HAS_ACCEPTED, true).commit();
+                finish();
+            }
+        });
+        builder.setNegativeButton("Sometimes", null);
+        builder.show();
+    }
+
+    private void startService()
+    {
+        startService(new Intent(this, SampleService.class));
     }
 
     @Override

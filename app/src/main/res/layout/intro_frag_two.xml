@@ -16,7 +16,7 @@
         android:gravity="center"
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
-        android:text="Slide 2 title"
+        android:text="while(tru)"
         android:textColor="#ffffff"
         android:textSize="28sp" />
 
@@ -28,7 +28,7 @@
         android:gravity="center"
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
-        android:text="Loooooooooooooooo[...]ooooooooong descreption here"
+        android:text="same"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 

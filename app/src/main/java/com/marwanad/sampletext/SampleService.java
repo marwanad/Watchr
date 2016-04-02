@@ -2,18 +2,26 @@ package com.marwanad.sampletext;
 
 import android.app.Service;
 import android.content.Intent;
+import android.location.Location;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.format.Formatter;
 import android.util.Log;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.util.Date;
 
 import javax.inject.Inject;
 
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 /**
  * Created by marwanad on 2016-04-02.
@@ -21,10 +29,16 @@ import io.socket.emitter.Emitter;
 public class SampleService extends Service implements AudioInputListener
 {
     @Inject Socket _socket;
-
+    @Inject GoogleApiClient _googleApiClient;
     private AudioInputRunnable _audioInput;
 
+    protected Location _currentLocation;
+    protected String _lastUpdateTime;
+
     private static final String TAG = "SampleService";
+    private static final String ALERT_NOISE_EVENT = "alert-noise";
+    private static final String ALERT_LOCATION_EVENT = "alert-location";
+
     double _gain = 2500.0 / Math.pow(10.0, 90.0 / 20.0);
     double _smoothRMS;
     double _alpha = 0.9;
@@ -45,6 +59,15 @@ public class SampleService extends Service implements AudioInputListener
         connectToSocketWithBindInfo(getIpAddress());
 
         _audioInput.start();
+        _googleApiClient.connect();
+
+        final LocationRequest locationRequest = createLocationRequest();
+        new Handler().postDelayed(new Runnable() {
+            public void run()
+            {
+                startLocationUpdates(locationRequest);
+            }
+        }, 500);
 
         return START_STICKY;
     }
@@ -71,9 +94,9 @@ public class SampleService extends Service implements AudioInputListener
         int dBFraction = (int) (Math.round(Math.abs(rmsdB * 10))) % 10;
         String smoothedDBValue = dBText + "." + dBFraction;
 
-        if (Double.valueOf(smoothedDBValue) > 66) {
+        if (Double.valueOf(smoothedDBValue) > 70) {
             Log.d(TAG, "Emitting smoothed dB value to server : " + smoothedDBValue);
-            _socket.emit("msg", smoothedDBValue);
+            _socket.emit(ALERT_NOISE_EVENT, getIpAddress(), smoothedDBValue);
         }
     }
 
@@ -85,15 +108,6 @@ public class SampleService extends Service implements AudioInputListener
 
     private void connectToSocketWithBindInfo(final String ip)
     {
-        _socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-            @Override
-            public void call(Object... args)
-            {
-                Log.d(TAG, "Connecting to socket with ip address:" + ip);
-                _socket.emit("msg", ip);
-            }
-
-        });
         _socket.connect();
     }
 
@@ -105,6 +119,31 @@ public class SampleService extends Service implements AudioInputListener
         if (_socket != null) {
             _socket.disconnect();
         }
+    }
+
+    private LocationRequest createLocationRequest()
+    {
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(2500);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        return locationRequest;
+    }
+
+    public void startLocationUpdates(LocationRequest locationRequest)
+    {
+        LocationServices.FusedLocationApi.requestLocationUpdates(_googleApiClient, locationRequest, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location)
+            {
+                _currentLocation = location;
+                _lastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+                _socket.emit(ALERT_LOCATION_EVENT, getIpAddress(), _currentLocation);
+                Log.d(TAG, "Lat: " + String.valueOf(_currentLocation.getLatitude()));
+                Log.d(TAG, "Long: " + String.valueOf(_currentLocation.getLongitude()));
+                Log.d(TAG, "Last Update: " + _lastUpdateTime);
+            }
+        });
     }
 
     @Override
