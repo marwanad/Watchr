@@ -50,7 +50,8 @@ public class AudioInputRunnable implements Runnable
     @Override
     public void run()
     {
-        short[] buffer20ms = new short[AudioUtils.SAMPLE_RATE_HZ / 50];
+        // uses a 20 ms buffer for processing the audio sample, finding the rms, etc
+        short[] twentyMsBuffer = new short[AudioUtils.SAMPLE_RATE_HZ / 50];
 
         try {
             _audioRecorder = new AudioRecord(
@@ -62,9 +63,9 @@ public class AudioInputRunnable implements Runnable
             _audioRecorder.startRecording();
 
             while (_isRunning) {
-                int numSamples = _audioRecorder.read(buffer20ms, 0, buffer20ms.length);
+                int numSamples = _audioRecorder.read(twentyMsBuffer, 0, twentyMsBuffer.length);
                 _totalNumberOfSamples += numSamples;
-                _audioListener.processSampleFrames(buffer20ms);
+                _audioListener.processSampleFrames(twentyMsBuffer);
             }
             _audioRecorder.stop();
         }
