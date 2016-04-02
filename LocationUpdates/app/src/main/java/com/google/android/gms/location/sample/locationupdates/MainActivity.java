@@ -47,11 +47,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
      */
     protected Location mCurrentLocation;
 
-    /**
-     * Tracks the status of the location updates request. Value changes when the user presses the
-     * Start Updates and Stop Updates buttons.
-     */
-    protected Boolean mRequestingLocationUpdates;
 
     /**
      * Time when the location was updated represented as a String.
@@ -62,25 +57,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mRequestingLocationUpdates = false;
-
-        // Kick off the process of building a GoogleApiClient and requesting the LocationServices
-        // API.
-        Log.i(TAG, "Building GoogleApiClient");
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .build();
-
-        mGoogleApiClient.connect();
         createLocationRequest();
-        // delay the location update so googleapi client has time to connect
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        startLocationUpdates();
-                    }
-                },
-                1000);
+
     }
 
     /**
@@ -93,14 +71,32 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
      * updates.
      */
     protected void createLocationRequest() {
+
+        // Kick off the process of building a GoogleApiClient and requesting the LocationServices
+        // API.
+        Log.i(TAG, "Building GoogleApiClient");
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .build();
+
+        mGoogleApiClient.connect();
+
         mLocationRequest = new LocationRequest();
 
         // approx interval
         mLocationRequest.setInterval(5000);
         // min interval
         mLocationRequest.setFastestInterval(2500);
-
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        // delay the location update so googleapi client has time to connect
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        startLocationUpdates();
+                    }
+                },
+                500);
     }
 
 
