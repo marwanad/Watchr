@@ -32,25 +32,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     protected static final String TAG = "location-updates-sample";
 
-    /**
-     * Provides the entry point to Google Play services.
-     */
     protected GoogleApiClient mGoogleApiClient;
-
-    /**
-     * Stores parameters for requests to the FusedLocationProviderApi.
-     */
     protected LocationRequest mLocationRequest;
-
-    /**
-     * Represents a geographical location.
-     */
     protected Location mCurrentLocation;
-
-
-    /**
-     * Time when the location was updated represented as a String.
-     */
     protected String mLastUpdateTime;
 
     @Override
@@ -61,16 +45,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     }
 
-    /**
-     * <p/>
-     * When the ACCESS_FINE_LOCATION setting is specified, combined with a fast update
-     * interval (5 seconds), the Fused Location Provider API returns location updates that are
-     * accurate to within a few feet.
-     * <p/>
-     * These settings are appropriate for mapping applications that show real-time location
-     * updates.
-     */
-    protected void createLocationRequest() {
+    public void createLocationRequest() {
 
         // Kick off the process of building a GoogleApiClient and requesting the LocationServices
         // API.
@@ -90,20 +65,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         // delay the location update so googleapi client has time to connect
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        startLocationUpdates();
-                    }
-                },
-                500);
+        new android.os.Handler().postDelayed(new Runnable() {public void run(){
+            startLocationUpdates();
+        }},500);
+
     }
 
 
     /**
      * Requests location updates from the FusedLocationApi.
-     */
-    protected void startLocationUpdates() {
+//     */
+    public void startLocationUpdates() {
         // The final argument to {@code requestLocationUpdates()} is a LocationListener
         // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
         LocationServices.FusedLocationApi.requestLocationUpdates(
