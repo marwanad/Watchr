@@ -53,15 +53,14 @@
     </LinearLayout>
 
     <ToggleButton
-        android:id="@+id/record_on_off"
+        android:id="@+id/record_on_off_button"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/toggle_audio_recording" />
+        android:text="@string/toggle_audio_recording_on" />
 
-    <View
-        android:id="@+id/bar_level_drawable_view"
-        class="com.marwanad.sampletext.widget.MeterDrawable"
+    <com.marwanad.sampletext.widget.MeterDrawable
+        android:id="@+id/meter_view"
         android:layout_width="fill_parent"
         android:layout_height="48dp" />
 </LinearLayout>

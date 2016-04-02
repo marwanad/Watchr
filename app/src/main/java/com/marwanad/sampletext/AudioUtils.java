@@ -11,5 +11,16 @@ public class AudioUtils
     public static final int SAMPLE_RATE_HZ = 8000;
     public static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
     public static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
-    public static int BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE_HZ, CHANNEL_CONFIG, AUDIO_FORMAT);
+    public static int BUFFER_SIZE = bufferSize(AudioUtils.SAMPLE_RATE_HZ, CHANNEL_CONFIG,
+            AUDIO_FORMAT);
+
+    public static int bufferSize(int sampleRateInHz, int channelConfig, int audioFormat)
+    {
+        int bufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig,
+                audioFormat);
+        if (bufferSize < sampleRateInHz) {
+            bufferSize = sampleRateInHz;
+        }
+        return bufferSize;
+    }
 }

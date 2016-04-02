@@ -4,7 +4,7 @@
     <string name="title_activity_audio">AudioActivity</string>
 
     <string name="dot">.</string>
-    <string name="toggle_audio_recording">Toggle Audio Recording</string>
+    <string name="toggle_audio_recording_on">On</string>
     <string name="zero">0</string>
     <string name="DB_unit">dB</string>
 </resources>

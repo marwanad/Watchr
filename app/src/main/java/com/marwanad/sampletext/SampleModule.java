@@ -4,8 +4,12 @@ import javax.inject.Singleton;
 
 import android.content.Context;
 
+import java.net.URISyntaxException;
+
 import dagger.Module;
 import dagger.Provides;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 /**
  * Created by marwanad on 2016-04-02.
@@ -27,5 +31,17 @@ public class SampleModule
         return _app;
     }
 
-    // Provide socket connection
+    // Provide web socket
+    @Provides
+    Socket provideWebSocket()
+    {
+        Socket socket;
+        try {
+            socket = IO.socket("http://10.9.244.80:3000");
+        }
+        catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        return socket;
+    }
 }
