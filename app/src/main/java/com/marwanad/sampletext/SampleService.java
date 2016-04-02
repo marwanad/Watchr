@@ -37,15 +37,16 @@ public class SampleService extends Service implements AudioInputListener
     }
 
     @Override
-    public void onCreate()
+    public int onStartCommand(Intent intent, int flags, int startId)
     {
-        super.onCreate();
         ((SampleApplication) getApplication()).getSampleComponent().inject(this);
         _audioInput = new AudioInputRunnable(this);
 
         connectToSocketWithBindInfo(getIpAddress());
 
         _audioInput.start();
+
+        return START_STICKY;
     }
 
     /**
@@ -70,8 +71,8 @@ public class SampleService extends Service implements AudioInputListener
         int dBFraction = (int) (Math.round(Math.abs(rmsdB * 10))) % 10;
         String smoothedDBValue = dBText + "." + dBFraction;
 
-        if (Double.valueOf(smoothedDBValue) > 60) {
-            Log.d(TAG, "Emitting dB value to server" + smoothedDBValue);
+        if (Double.valueOf(smoothedDBValue) > 66) {
+            Log.d(TAG, "Emitting smoothed dB value to server : " + smoothedDBValue);
             _socket.emit("msg", smoothedDBValue);
         }
     }
