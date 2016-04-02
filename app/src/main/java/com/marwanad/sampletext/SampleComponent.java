@@ -1,6 +1,6 @@
 package com.marwanad.sampletext;
 
-import com.marwanad.sampletext.ui.activity.MainActivity;
+import com.marwanad.sampletext.ui.activity.MeterActivity;
 
 import javax.inject.Singleton;
 
@@ -13,5 +13,7 @@ import dagger.Component;
 @Singleton
 public interface SampleComponent
 {
-    void inject(MainActivity activity);
+    void inject(MeterActivity activity);
+
+    void inject(SampleService service);
 }

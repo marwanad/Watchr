@@ -16,6 +16,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <service android:name=".SampleService" />
+
+        <receiver android:name=".receiver.BootPresentReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
