@@ -55,18 +55,30 @@ public class MainActivity extends AppCompatActivity implements AudioInputListene
         if (_inputToggleButton.isChecked()) {
             _audioInput.start();
 
-            _socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args)
-                {
-                    _socket.emit("msg", "hi, I'm connected, here's my mac address" + "ayy lmao");
-                }
-
-            });
-            _socket.connect();
+//            _socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+//                @Override
+//                public void call(Object... args)
+//                {
+////                    _socket.emit("msg", "hi, I'm connected, here's my mac address" + "ayy lmao");
+//                }
+//
+//            });
+//            _socket.connect();
         }
         else {
             _audioInput.stop();
+            _socket.disconnect();
+        }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        if (_audioInput != null) {
+            _audioInput.stop();
+        }
+        if (_socket != null) {
             _socket.disconnect();
         }
     }

@@ -43,7 +43,7 @@ public class AudioInputRunnable implements Runnable
             }
         }
         catch (InterruptedException e) {
-            Log.v(TAG, "InterruptedException.", e);
+            Log.e(TAG, "InterruptedException.", e);
         }
     }
 
@@ -68,9 +68,9 @@ public class AudioInputRunnable implements Runnable
                 _audioListener.processSampleFrames(twentyMsBuffer);
             }
             _audioRecorder.stop();
+            _audioRecorder.release();
         }
         catch (Throwable x) {
         }
     }
-
 }
