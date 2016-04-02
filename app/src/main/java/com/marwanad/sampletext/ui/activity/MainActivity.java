@@ -6,6 +6,8 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.Formatter;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -21,6 +23,7 @@ import com.marwanad.sampletext.AudioInputRunnable;
 import com.marwanad.sampletext.R;
 import com.marwanad.sampletext.SampleApplication;
 import com.marwanad.sampletext.widget.MeterDrawable;
+
 
 import javax.inject.Inject;
 
@@ -47,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements AudioInputListene
         ((SampleApplication) getApplication()).getSampleComponent().inject(this);
         _audioInput = new AudioInputRunnable(this);
         ButterKnife.bind(this);
+        WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+        String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+
+        Log.d("IPAddress", "IP Address: " + ipAddress);
     }
 
     @OnClick(R.id.record_on_off_button)
@@ -96,8 +103,7 @@ public class MainActivity extends AppCompatActivity implements AudioInputListene
         }
         _meterDrawable.post(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 _meterDrawable.setLevel((_DBOffset + rmsdB) / 60);
 
                 _DBTextView.setText(df.format(20 + rmsdB));
@@ -107,4 +113,5 @@ public class MainActivity extends AppCompatActivity implements AudioInputListene
             }
         });
     }
+
 }
