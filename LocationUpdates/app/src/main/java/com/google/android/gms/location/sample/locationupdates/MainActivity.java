@@ -47,14 +47,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     public void createLocationRequest() {
 
-        // Kick off the process of building a GoogleApiClient and requesting the LocationServices
-        // API.
-        Log.i(TAG, "Building GoogleApiClient");
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .build();
-
-        mGoogleApiClient.connect();
 
         mLocationRequest = new LocationRequest();
 

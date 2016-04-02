@@ -4,6 +4,9 @@ import javax.inject.Singleton;
 
 import android.content.Context;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 import java.net.URISyntaxException;
 
 import dagger.Module;
@@ -43,5 +46,12 @@ public class SampleModule
             throw new RuntimeException(e);
         }
         return socket;
+    }
+    @Provides
+    GoogleApiClient provideGoogleApiClient()
+    {
+     return new GoogleApiClient.Builder(_app)
+             .addApi(LocationServices.API)
+             .build();
     }
 }
