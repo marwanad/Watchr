@@ -24,7 +24,6 @@ import com.marwanad.sampletext.R;
 import com.marwanad.sampletext.SampleApplication;
 import com.marwanad.sampletext.widget.MeterDrawable;
 
-
 import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity implements AudioInputListener
@@ -62,15 +61,15 @@ public class MainActivity extends AppCompatActivity implements AudioInputListene
         if (_inputToggleButton.isChecked()) {
             _audioInput.start();
 
-//            _socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-//                @Override
-//                public void call(Object... args)
-//                {
-////                    _socket.emit("msg", "hi, I'm connected, here's my mac address" + "ayy lmao");
-//                }
-//
-//            });
-//            _socket.connect();
+            _socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                @Override
+                public void call(Object... args)
+                {
+                    _socket.emit("msg", "hi, I'm connected, here's my mac address" + "ayy lmao");
+                }
+
+            });
+            _socket.connect();
         }
         else {
             _audioInput.stop();
@@ -103,27 +102,28 @@ public class MainActivity extends AppCompatActivity implements AudioInputListene
             rms += sampleFrame[i] * sampleFrame[i];
         }
         rms = Math.sqrt(rms / sampleFrame.length);
-
         _smoothRMS = _smoothRMS * _alpha + (1 - _alpha) * rms;
         final double rmsdB = 20.0 * Math.log10(_gain * _smoothRMS);
 
         final DecimalFormat df = new DecimalFormat("##");
 
-        final String dbValue = df.format(20 + rmsdB) + "." + (int) (Math.round(Math.abs(rmsdB * 10))) % 10;
-        if (Integer.valueOf(dbValue) > 50) {
-            _socket.emit("msg", dbValue);
-        }
         _meterDrawable.post(new Runnable() {
             @Override
-            public void run() {
+            public void run()
+            {
                 _meterDrawable.setLevel((_DBOffset + rmsdB) / 60);
 
                 _DBTextView.setText(df.format(20 + rmsdB));
 
                 int one_decimal = (int) (Math.round(Math.abs(rmsdB * 10))) % 10;
                 _DBFractionTextView.setText(Integer.toString(one_decimal));
+
             }
         });
+        String smoothedDBValue = _DBTextView.getText().toString() + "." + _DBFractionTextView.getText().toString();
+        if (Double.valueOf(smoothedDBValue) > 60) {
+            Log.d("MainActivity", "Sending dB value to server");
+            _socket.emit("msg", smoothedDBValue);
+        }
     }
-
 }
