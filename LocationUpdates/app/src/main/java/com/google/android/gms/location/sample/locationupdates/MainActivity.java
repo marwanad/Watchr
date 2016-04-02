@@ -22,6 +22,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +55,7 @@ import java.util.Date;
  * uses Google Play services for authentication, see
  * https://github.com/googlesamples/android-google-accounts/tree/master/QuickStart.
  */
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends AppCompatActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     protected static final String TAG = "location-updates-sample";
@@ -91,13 +92,6 @@ public class MainActivity extends ActionBarActivity implements
      */
     protected Location mCurrentLocation;
 
-    // UI Widgets.
-    protected Button mStartUpdatesButton;
-    protected Button mStopUpdatesButton;
-    protected TextView mLastUpdateTimeTextView;
-    protected TextView mLatitudeTextView;
-    protected TextView mLongitudeTextView;
-
     // Labels.
     protected String mLatitudeLabel;
     protected String mLongitudeLabel;
@@ -119,13 +113,6 @@ public class MainActivity extends ActionBarActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        // Locate the UI widgets.
-        mStartUpdatesButton = (Button) findViewById(R.id.start_updates_button);
-        mStopUpdatesButton = (Button) findViewById(R.id.stop_updates_button);
-        mLatitudeTextView = (TextView) findViewById(R.id.latitude_text);
-        mLongitudeTextView = (TextView) findViewById(R.id.longitude_text);
-        mLastUpdateTimeTextView = (TextView) findViewById(R.id.last_update_time_text);
-
         // Set labels.
         mLatitudeLabel = getResources().getString(R.string.latitude_label);
         mLongitudeLabel = getResources().getString(R.string.longitude_label);
@@ -142,6 +129,14 @@ public class MainActivity extends ActionBarActivity implements
         // Kick off the process of building a GoogleApiClient and requesting the LocationServices
         // API.
         buildGoogleApiClient();
+        // delay the location update so googleapi client has time to connect
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        startLocationUpdates();
+                    }
+                },
+                1000);
     }
 
     /**
@@ -171,7 +166,7 @@ public class MainActivity extends ActionBarActivity implements
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
                 mLastUpdateTime = savedInstanceState.getString(LAST_UPDATED_TIME_STRING_KEY);
             }
-            updateUI();
+            logLoc();
         }
     }
 
@@ -190,10 +185,6 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     /**
-     * Sets up the location request. Android has two location request settings:
-     * {@code ACCESS_COARSE_LOCATION} and {@code ACCESS_FINE_LOCATION}. These settings control
-     * the accuracy of the current location. This sample uses ACCESS_FINE_LOCATION, as defined in
-     * the AndroidManifest.xml.
      * <p/>
      * When the ACCESS_FINE_LOCATION setting is specified, combined with a fast update
      * interval (5 seconds), the Fused Location Provider API returns location updates that are
@@ -218,27 +209,6 @@ public class MainActivity extends ActionBarActivity implements
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    /**
-     * Handles the Start Updates button and requests start of location updates. Does nothing if
-     * updates have already been requested.
-     */
-    public void startUpdatesButtonHandler(View view) {
-        if (!mRequestingLocationUpdates) {
-            mRequestingLocationUpdates = true;
-            startLocationUpdates();
-        }
-    }
-
-    /**
-     * Handles the Stop Updates button, and requests removal of location updates. Does nothing if
-     * updates were not previously requested.
-     */
-    public void stopUpdatesButtonHandler(View view) {
-        if (mRequestingLocationUpdates) {
-            mRequestingLocationUpdates = false;
-            stopLocationUpdates();
-        }
-    }
 
     /**
      * Requests location updates from the FusedLocationApi.
@@ -253,7 +223,7 @@ public class MainActivity extends ActionBarActivity implements
     /**
      * Updates the latitude, the longitude, and the last location time in the UI.
      */
-    private void updateUI() {
+    private void logLoc() {
         Log.v(mLatitudeLabel,
                 String.valueOf(mCurrentLocation.getLatitude()));
         Log.v(mLongitudeLabel,
@@ -303,7 +273,7 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     protected void onStop() {
         mGoogleApiClient.disconnect();
-        
+
         super.onStop();
     }
 
@@ -327,7 +297,7 @@ public class MainActivity extends ActionBarActivity implements
         if (mCurrentLocation == null) {
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-            updateUI();
+            logLoc();
         }
 
         // If the user presses the Start Updates button before GoogleApiClient connects, we set
@@ -345,9 +315,7 @@ public class MainActivity extends ActionBarActivity implements
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        updateUI();
-        Toast.makeText(this, getResources().getString(R.string.location_updated_message),
-                Toast.LENGTH_SHORT).show();
+        logLoc();
     }
 
     @Override
