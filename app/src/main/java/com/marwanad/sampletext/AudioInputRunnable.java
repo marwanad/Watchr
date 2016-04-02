@@ -70,7 +70,6 @@ public class AudioInputRunnable implements Runnable
                 _audioListener.processSampleFrames(twentyMsBuffer);
             }
             _audioRecorder.stop();
-            _audioRecorder.release();
         }
         catch (Throwable x) {
         }
