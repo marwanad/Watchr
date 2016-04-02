@@ -39,6 +39,8 @@ public class AudioInputRunnable implements Runnable
         try {
             if (_isRunning) {
                 _isRunning = false;
+                _audioRecorder.stop();
+                _audioRecorder.release();
                 _audioInputThread.join();
             }
         }
