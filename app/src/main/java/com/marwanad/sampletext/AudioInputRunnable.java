@@ -12,7 +12,7 @@ public class AudioInputRunnable implements Runnable
     int mAudioSource = MediaRecorder.AudioSource.VOICE_RECOGNITION;
     final int mChannelConfig = AudioFormat.CHANNEL_IN_MONO;
     final int mAudioFormat = AudioFormat.ENCODING_PCM_16BIT;
-    
+
     @Override
     public void run()
     {
