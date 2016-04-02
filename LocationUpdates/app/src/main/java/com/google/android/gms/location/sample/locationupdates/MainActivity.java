@@ -34,15 +34,7 @@ public class MainActivity extends AppCompatActivity implements
 
     protected static final String TAG = "location-updates-sample";
 
-    /**
-     * The desired interval for location updates. Inexact. Updates may be more or less frequent.
-     */
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
-
-    /**
-     * The fastest rate for active location updates. Exact. Updates will never be more frequent
-     * than this value.
-     */
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
@@ -67,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements
     protected Location mCurrentLocation;
 
     // Labels.
-    protected String mLatitudeLabel;
-    protected String mLongitudeLabel;
     protected String mLastUpdateTimeLabel;
 
     /**
@@ -88,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.main_activity);
 
         // Set labels.
-        mLatitudeLabel = getResources().getString(R.string.latitude_label);
-        mLongitudeLabel = getResources().getString(R.string.longitude_label);
         mLastUpdateTimeLabel = getResources().getString(R.string.last_update_time_label);
 
         mRequestingLocationUpdates = false;
@@ -197,10 +185,9 @@ public class MainActivity extends AppCompatActivity implements
      * Updates the latitude, the longitude, and the last location time in the UI.
      */
     private void logLoc() {
-        Log.v(mLatitudeLabel,
-                String.valueOf(mCurrentLocation.getLatitude()));
-        Log.v(mLongitudeLabel,
-                String.valueOf(mCurrentLocation.getLongitude()));
+        Log.v("Lat:",String.valueOf(mCurrentLocation.getLatitude()));
+        Log.v("Long:", String.valueOf(mCurrentLocation.getLongitude()));
+        Log.v("TimeStamp:",mLastUpdateTime );
     }
 
     @Override
