@@ -13,7 +13,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.LocationSource;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -30,11 +29,24 @@ import io.socket.emitter.Emitter;
 public class SampleService extends Service implements AudioInputListener
 {
     @Inject Socket _socket;
-    @Inject
-    GoogleApiClient _googleApiClient;
+    @Inject GoogleApiClient _googleApiClient;
     private AudioInputRunnable _audioInput;
-    protected Location mCurrentLocation;
-    protected String mLastUpdateTime;
+
+    protected Location _currentLocation;
+    protected String _lastUpdateTime;
+
+    private LocationListener _locationChangeListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location)
+        {
+            _currentLocation = location;
+            _lastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+            Log.v(TAG, "Lat: " + String.valueOf(_currentLocation.getLatitude()));
+            Log.v(TAG, "Long: " + String.valueOf(_currentLocation.getLongitude()));
+            Log.v(TAG, "Last Update: " + _lastUpdateTime);
+        }
+    };
+
     private static final String TAG = "SampleService";
     double _gain = 2500.0 / Math.pow(10.0, 90.0 / 20.0);
     double _smoothRMS;
@@ -57,11 +69,14 @@ public class SampleService extends Service implements AudioInputListener
 
         _audioInput.start();
         _googleApiClient.connect();
-        final LocationRequest locationRequest= createLocationRequest();
-        new android.os.Handler().postDelayed(new Runnable() {public void run(){
-            startLocationUpdates(locationRequest);
-        }},500);
 
+        final LocationRequest locationRequest = createLocationRequest();
+        new android.os.Handler().postDelayed(new Runnable() {
+            public void run()
+            {
+                startLocationUpdates(locationRequest);
+            }
+        }, 500);
 
         return START_STICKY;
     }
@@ -123,38 +138,20 @@ public class SampleService extends Service implements AudioInputListener
             _socket.disconnect();
         }
     }
-    private LocationRequest createLocationRequest() {
-        LocationRequest locationRequest;
 
-        locationRequest = new LocationRequest();
-
-        // approx interval
+    private LocationRequest createLocationRequest()
+    {
+        LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(5000);
-        // min interval
         locationRequest.setFastestInterval(2500);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         return locationRequest;
-        // delay the location update so googleapi client has time to connect
-
-
     }
 
-    public void startLocationUpdates(LocationRequest locationRequest) {
-        // The final argument to {@code requestLocationUpdates()} is a LocationListener
-        // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                _googleApiClient, locationRequest, new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        mCurrentLocation = location;
-                        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-                        Log.v("Lat:",String.valueOf(mCurrentLocation.getLatitude()));
-                        Log.v("Long:", String.valueOf(mCurrentLocation.getLongitude()));
-                        Log.v("TimeStamp:", mLastUpdateTime);
-                    }
-                });
+    public void startLocationUpdates(LocationRequest locationRequest)
+    {
+        LocationServices.FusedLocationApi.requestLocationUpdates(_googleApiClient, locationRequest, _locationChangeListener);
     }
-
 
     @Override
     public void onDestroy()

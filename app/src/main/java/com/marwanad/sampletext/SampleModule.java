@@ -3,6 +3,8 @@ package com.marwanad.sampletext;
 import javax.inject.Singleton;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -47,11 +49,18 @@ public class SampleModule
         }
         return socket;
     }
+
     @Provides
     GoogleApiClient provideGoogleApiClient()
     {
-     return new GoogleApiClient.Builder(_app)
-             .addApi(LocationServices.API)
-             .build();
+        return new GoogleApiClient.Builder(_app)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    @Provides
+    SharedPreferences provideSharedPrefs()
+    {
+        return PreferenceManager.getDefaultSharedPreferences(_app);
     }
 }
