@@ -26,7 +26,7 @@ import com.marwanad.sampletext.widget.MeterDrawable;
 
 import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity implements AudioInputListener
+public class MeterActivity extends AppCompatActivity implements AudioInputListener
 {
 
     private AudioInputRunnable _audioInput;
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements AudioInputListene
         });
         String smoothedDBValue = _DBTextView.getText().toString() + "." + _DBFractionTextView.getText().toString();
         if (Double.valueOf(smoothedDBValue) > 60) {
-            Log.d("MainActivity", "Sending dB value to server");
+            Log.d("MeterActivity", "Sending dB value to server");
             _socket.emit("msg", smoothedDBValue);
         }
     }

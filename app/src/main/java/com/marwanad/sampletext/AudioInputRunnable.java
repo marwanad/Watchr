@@ -72,6 +72,7 @@ public class AudioInputRunnable implements Runnable
             _audioRecorder.stop();
         }
         catch (Throwable x) {
+            Log.d(TAG, "caught throwable" + x);
         }
     }
 }
