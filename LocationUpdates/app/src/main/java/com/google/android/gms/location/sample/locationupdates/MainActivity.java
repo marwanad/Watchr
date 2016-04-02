@@ -32,10 +32,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     protected static final String TAG = "location-updates-sample";
 
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
-    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
-            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-
     /**
      * Provides the entry point to Google Play services.
      */
@@ -70,7 +66,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         // Kick off the process of building a GoogleApiClient and requesting the LocationServices
         // API.
-        buildGoogleApiClient();
+        Log.i(TAG, "Building GoogleApiClient");
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .build();
+
+        mGoogleApiClient.connect();
+        createLocationRequest();
         // delay the location update so googleapi client has time to connect
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -79,18 +81,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     }
                 },
                 1000);
-    }
-
-    /**
-     * Builds a GoogleApiClient. Uses the {@code #addApi} method to request the
-     * LocationServices API.
-     */
-    protected synchronized void buildGoogleApiClient() {
-        Log.i(TAG, "Building GoogleApiClient");
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .build();
-        createLocationRequest();
     }
 
     /**
@@ -105,15 +95,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
 
-        // Sets the desired interval for active location updates. This interval is
-        // inexact. You may not receive updates at all if no location sources are available, or
-        // you may receive them slower than requested. You may also receive updates faster than
-        // requested if other applications are requesting location at a faster interval.
-        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-
-        // Sets the fastest rate for active location updates. This interval is exact, and your
-        // application will never receive updates faster than this value.
-        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+        // approx interval
+        mLocationRequest.setInterval(5000);
+        // min interval
+        mLocationRequest.setFastestInterval(2500);
 
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
@@ -135,14 +120,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private void logLoc() {
         Log.v("Lat:",String.valueOf(mCurrentLocation.getLatitude()));
         Log.v("Long:", String.valueOf(mCurrentLocation.getLongitude()));
-        Log.v("TimeStamp:",mLastUpdateTime );
+        Log.v("TimeStamp:", mLastUpdateTime);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
     /**
      * Callback that fires when the location changes.
      */
