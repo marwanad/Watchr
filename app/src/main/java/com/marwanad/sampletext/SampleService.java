@@ -66,7 +66,7 @@ public class SampleService extends Service implements AudioInputListener
         ((SampleApplication) getApplication()).getSampleComponent().inject(this);
         _audioInput = new AudioInputRunnable(this);
 
-        connectToSocketWithBindInfo(getIpAddress());
+        connectToSocketWithBindInfo();
 
         _audioInput.start();
         _googleApiClient.connect();
