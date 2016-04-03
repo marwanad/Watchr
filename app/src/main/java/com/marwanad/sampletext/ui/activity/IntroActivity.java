@@ -53,9 +53,9 @@ public class IntroActivity extends AppIntro2
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(IntroActivity.this);
         builder.setTitle("Would you like to start using Watchr?");
-        builder.setMessage("You agree to let Watchr to collect your location and the sound level metadata and send " +
+        builder.setMessage("You agree to let Watchr collect your location and the sound level metadata and send " +
                 "the data to an encrypted centralized database. We will not collect any personal information" +
-                "for User privacy conerns.");
+                "for User privacy concerns.");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which)
