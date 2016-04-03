@@ -1,4 +1,4 @@
-package com.marwanad.sampletext;
+package com.marwanad.watchr;
 
 import org.junit.Test;
 
