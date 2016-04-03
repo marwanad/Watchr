@@ -22,6 +22,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.marwanad.sampletext.ui.activity.EvacuateActivity;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -122,6 +123,7 @@ public class SampleService extends Service implements AudioInputListener
             @Override
             public void call(Object... args)
             {
+                Log.d(TAG, "got alert evacuate event");
                 sendNotification();
             }
         });
@@ -130,7 +132,9 @@ public class SampleService extends Service implements AudioInputListener
 
     private void sendNotification()
     {
-
+        Intent i = new Intent(this, EvacuateActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 
     private void stopRecording()
