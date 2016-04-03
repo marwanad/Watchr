@@ -1,11 +1,19 @@
 package com.marwanad.sampletext;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.text.format.Formatter;
 import android.util.Log;
@@ -22,6 +30,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * Created by marwanad on 2016-04-02.
@@ -37,6 +46,7 @@ public class SampleService extends Service implements AudioInputListener
 
     private static final String TAG = "SampleService";
     private static final String ALERT_NOISE_EVENT = "alert-noise";
+    private static final String ALERT_EVACUATE_EVENT = "alert-evacuate";
     private static final String ALERT_LOCATION_EVENT = "alert-location";
 
     double _gain = 2500.0 / Math.pow(10.0, 90.0 / 20.0);
@@ -96,7 +106,7 @@ public class SampleService extends Service implements AudioInputListener
 
         if (Double.valueOf(smoothedDBValue) > 70) {
             Log.d(TAG, "Emitting smoothed dB value to server : " + smoothedDBValue);
-            _socket.emit(ALERT_NOISE_EVENT, getIpAddress(), smoothedDBValue);
+            _socket.emit(ALERT_NOISE_EVENT, getIpAddress(), _currentLocation.getLatitude(), _currentLocation.getLongitude(), smoothedDBValue);
         }
     }
 
@@ -109,6 +119,18 @@ public class SampleService extends Service implements AudioInputListener
     private void connectToSocketWithBindInfo(final String ip)
     {
         _socket.connect();
+        _socket.on(ALERT_EVACUATE_EVENT, new Emitter.Listener() {
+            @Override
+            public void call(Object... args)
+            {
+                sendNotification();
+            }
+        });
+    }
+
+    private void sendNotification()
+    {
+
     }
 
     private void stopRecording()
