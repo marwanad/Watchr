@@ -2,14 +2,12 @@ package com.marwanad.sampletext.ui.activity;
 
 import java.text.DecimalFormat;
 
-import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import butterknife.Bind;
@@ -21,7 +19,7 @@ import io.socket.emitter.Emitter;
 import com.marwanad.sampletext.AudioInputListener;
 import com.marwanad.sampletext.AudioInputRunnable;
 import com.marwanad.sampletext.R;
-import com.marwanad.sampletext.SampleApplication;
+import com.marwanad.sampletext.WatchrApplication;
 import com.marwanad.sampletext.widget.MeterDrawable;
 
 import javax.inject.Inject;
@@ -46,7 +44,7 @@ public class MeterActivity extends AppCompatActivity implements AudioInputListen
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((SampleApplication) getApplication()).getSampleComponent().inject(this);
+        ((WatchrApplication) getApplication()).getSampleComponent().inject(this);
         _audioInput = new AudioInputRunnable(this);
         ButterKnife.bind(this);
         WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);

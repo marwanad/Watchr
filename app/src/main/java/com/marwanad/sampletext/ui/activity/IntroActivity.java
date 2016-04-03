@@ -9,8 +9,8 @@ import android.support.v7.app.AlertDialog;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.marwanad.sampletext.R;
-import com.marwanad.sampletext.SampleApplication;
-import com.marwanad.sampletext.SampleService;
+import com.marwanad.sampletext.WatchrApplication;
+import com.marwanad.sampletext.WatchrService;
 import com.marwanad.sampletext.ui.intro.fragment.IntroFragment;
 
 import javax.inject.Inject;
@@ -27,7 +27,7 @@ public class IntroActivity extends AppIntro2
     @Override
     public void init(@Nullable Bundle savedInstanceState)
     {
-        ((SampleApplication) getApplication()).getSampleComponent().inject(this);
+        ((WatchrApplication) getApplication()).getSampleComponent().inject(this);
         if (_sharedPrefs.getBoolean(HAS_ACCEPTED, false)) {
             finish();
         }
@@ -45,7 +45,6 @@ public class IntroActivity extends AppIntro2
     @Override
     public void onNextPressed()
     {
-
     }
 
     private void showConfirmDialog()
@@ -71,7 +70,7 @@ public class IntroActivity extends AppIntro2
 
     private void startService()
     {
-        startService(new Intent(this, SampleService.class));
+        startService(new Intent(this, WatchrService.class));
     }
 
     @Override
