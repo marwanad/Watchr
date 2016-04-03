@@ -21,6 +21,9 @@ public class EvacuateActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evacuate);
 
