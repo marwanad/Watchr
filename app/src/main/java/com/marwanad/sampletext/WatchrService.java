@@ -97,7 +97,7 @@ public class WatchrService extends Service implements AudioInputListener
         int dBFraction = (int) (Math.round(Math.abs(rmsdB * 10))) % 10;
         String smoothedDBValue = dBText + "." + dBFraction;
 
-        if (Double.valueOf(smoothedDBValue) > 70) {
+        if (Double.valueOf(smoothedDBValue) > 75) {
             Log.d(TAG, "Emitting smoothed dB value to server : " + smoothedDBValue);
             _socket.emit(ALERT_NOISE_EVENT, getIpAddress(), _currentLocation.getLatitude(), _currentLocation.getLongitude(), smoothedDBValue);
         }
