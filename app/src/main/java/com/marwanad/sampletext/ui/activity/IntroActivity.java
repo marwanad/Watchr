@@ -52,9 +52,11 @@ public class IntroActivity extends AppIntro2
     {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(IntroActivity.this);
-        builder.setTitle("Are you sure you want to proceed?");
-        builder.setMessage("You agree to.");
-        builder.setPositiveButton("Tru", new DialogInterface.OnClickListener() {
+        builder.setTitle("Would you like to start using Watchr?");
+        builder.setMessage("You agree to let Watchr to collect your location and the sound level metadata and send " +
+                "the data to an encrypted centralized database. We will not collect any personal information" +
+                "for User privacy conerns.");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
@@ -63,7 +65,7 @@ public class IntroActivity extends AppIntro2
                 finish();
             }
         });
-        builder.setNegativeButton("Sometimes", null);
+        builder.setNegativeButton("No", null);
         builder.show();
     }
 
