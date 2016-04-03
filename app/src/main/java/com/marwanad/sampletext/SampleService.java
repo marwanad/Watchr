@@ -116,9 +116,8 @@ public class SampleService extends Service implements AudioInputListener
         return Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
     }
 
-    private void connectToSocketWithBindInfo(final String ip)
+    private void connectToSocketWithBindInfo()
     {
-        _socket.connect();
         _socket.on(ALERT_EVACUATE_EVENT, new Emitter.Listener() {
             @Override
             public void call(Object... args)
@@ -126,6 +125,7 @@ public class SampleService extends Service implements AudioInputListener
                 sendNotification();
             }
         });
+        _socket.connect();
     }
 
     private void sendNotification()
