@@ -34,14 +34,16 @@ public class IntroActivity extends AppIntro2
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         ((WatchrApplication) getApplication()).getSampleComponent().inject(this);
-        if (isServiceRunning()) {
+        if (_sharedPrefs.getBoolean(HAS_ACCEPTED, false)) {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
             finish();
         }
-        addSlide(IntroFragment.newInstance(R.layout.intro_frag_one));
-        addSlide(IntroFragment.newInstance(R.layout.intro_frag_two));
-        addSlide(IntroFragment.newInstance(R.layout.intro_frag_three));
+        else {
+            addSlide(IntroFragment.newInstance(R.layout.intro_frag_one));
+            addSlide(IntroFragment.newInstance(R.layout.intro_frag_two));
+            addSlide(IntroFragment.newInstance(R.layout.intro_frag_three));
+        }
     }
 
     @Override
@@ -67,8 +69,9 @@ public class IntroActivity extends AppIntro2
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                startService();
                 _sharedPrefs.edit().putBoolean(HAS_ACCEPTED, true).commit();
+                startService();
+                launchMainActivity();
                 finish();
             }
         });
@@ -87,14 +90,10 @@ public class IntroActivity extends AppIntro2
 
     }
 
-    private boolean isServiceRunning()
+    private void launchMainActivity()
     {
-        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if ("com.marwanad.watchr.WatchrService".equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }

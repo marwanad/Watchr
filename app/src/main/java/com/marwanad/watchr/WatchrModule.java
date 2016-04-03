@@ -43,8 +43,8 @@ public class WatchrModule
     {
         Socket socket;
         try {
-//            Manager manager = new Manager(new URI("http://10.8.235.65:3000/"));
-            Manager manager = new Manager(new URI("http://10.9.244.80:3000"));
+            Manager manager = new Manager(new URI("http://10.8.235.65:3000/"));
+//            Manager manager = new Manager(new URI("http://10.9.244.80:3000"));
             socket = manager.socket("/android");
             socket.connect();
         }
