@@ -12,21 +12,19 @@ import android.view.WindowManager;
 
 import com.marwanad.sampletext.R;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by marwanad on 2016-04-02.
  */
 public class EvacuateActivity extends AppCompatActivity {
-    private static final long SCREEN_TIMEOUT = 30000;
+    private static final long SCREEN_TIMEOUT = 60000;
     private Ringtone r;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evacuate);
-        ButterKnife.bind(this);
-        Runnable keepScreenOn = new Runnable() {
+
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 clearFlags();
@@ -34,17 +32,16 @@ public class EvacuateActivity extends AppCompatActivity {
                     r.stop();
                 }
             }
-        };
-        new Handler().postDelayed(keepScreenOn, SCREEN_TIMEOUT);
-        Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(1000);
+        }, SCREEN_TIMEOUT);
         try {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             r.play();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(30000);
     }
 
     @Override
