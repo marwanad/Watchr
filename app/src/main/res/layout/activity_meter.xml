@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/DB_tens_text_view"
+            android:layout_width="107dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:gravity="right"
+            android:text="@string/zero"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="80dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/DB_dot_text_view"
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/dot"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="80dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/DB_fraction_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zero"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="80dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/DB_unit_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/DB_unit"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="80dp"
+            android:typeface="monospace" />
+
+    </LinearLayout>
+
+    <ToggleButton
+        android:id="@+id/record_on_off_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/toggle_audio_recording_on" />
+
+    <com.marwanad.watchr.widget.MeterDrawable
+        android:id="@+id/meter_view"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp" />
+</LinearLayout>

@@ -18,13 +18,4 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Theme.Watchr.Stopped" parent="AppTheme">
-        <item name="colorPrimary">@color/running_green</item>
-        <item name="colorPrimaryDark">@color/running_green_dark</item>
-    </style>
-
-    <style name="Theme.Watchr.Running" parent="AppTheme">
-        <item name="colorPrimary">@color/stop_red</item>
-        <item name="colorPrimaryDark">@color/stop_red_dark</item>
-    </style>
 </resources>

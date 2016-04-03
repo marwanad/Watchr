@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/start_stop_toggle"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:padding="24dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_action_start_96dp" />
+</FrameLayout>

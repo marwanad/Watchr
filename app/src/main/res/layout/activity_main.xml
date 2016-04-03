@@ -1,47 +1,42 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/capture_insets_frame_layout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_activity_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/stop_red"
     android:fitsSystemWindows="true">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/service_toggle_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="81dp" />
+
     <TextView
         android:id="@+id/main_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginBottom="42dp"
+        android:layout_marginTop="45dp"
         android:gravity="center"
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
         android:text="Safe Mode is Currently Enabled"
         android:textColor="#090D19"
-        android:textSize="34sp"
-        android:layout_above="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="42dp" />
+        android:textSize="34sp" />
 
     <TextView
+        android:id="@+id/description_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginTop="160dp"
         android:gravity="center"
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
         android:text="Tap To Dismiss"
         android:textColor="#090D19"
-        android:textSize="18sp"
-        android:layout_marginBottom="67dp"
-        android:id="@+id/textView"
-        android:layout_above="@+id/include"
-        android:layout_alignStart="@+id/include" />
-
-
-    <include
-        layout="@layout/service_toggle_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="81dp"
-        android:id="@+id/include" />
-</RelativeLayout>
+        android:textSize="18sp" />
+</FrameLayout>
