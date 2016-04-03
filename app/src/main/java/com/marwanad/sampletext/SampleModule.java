@@ -9,11 +9,13 @@ import android.preference.PreferenceManager;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 
 import dagger.Module;
 import dagger.Provides;
 import io.socket.client.IO;
+import io.socket.client.Manager;
 import io.socket.client.Socket;
 
 /**
@@ -42,7 +44,9 @@ public class SampleModule
     {
         Socket socket;
         try {
-            socket = IO.socket("http://10.9.244.80:3000");
+            Manager manager = new Manager(new URI("http://10.9.244.80:3000"));
+            socket = manager.socket("/android");
+            socket.connect();
         }
         catch (URISyntaxException e) {
             throw new RuntimeException(e);

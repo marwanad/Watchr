@@ -138,7 +138,7 @@ public class SampleService extends Service implements AudioInputListener
             {
                 _currentLocation = location;
                 _lastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-                _socket.emit(ALERT_LOCATION_EVENT, getIpAddress(), _currentLocation);
+                _socket.emit(ALERT_LOCATION_EVENT, getIpAddress(), _currentLocation.getLatitude(), _currentLocation.getLongitude());
                 Log.d(TAG, "Lat: " + String.valueOf(_currentLocation.getLatitude()));
                 Log.d(TAG, "Long: " + String.valueOf(_currentLocation.getLongitude()));
                 Log.d(TAG, "Last Update: " + _lastUpdateTime);
