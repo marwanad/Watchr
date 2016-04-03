@@ -27,7 +27,7 @@
         android:gravity="center"
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
-        android:text="Work towards a safer future together."
+        android:text="Building a safer future together."
         android:textColor="#090D19"
         android:textSize="18sp" />
 
