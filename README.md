@@ -15,7 +15,7 @@ Devpost [here](http://devpost.com/software/watchr-1s3cqu)
 <img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/3.png " style="width: 200px;"/>
 <img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/4.png " style="width: 200px;"/>
 <img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/5.png " style="width: 200px;"/>
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/6.png />
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/7.png />
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/8.png />
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/9.png />
+<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/6.jpg />
+<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/7.jpg />
+<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/8.jpg />
+<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/9.jpg />
