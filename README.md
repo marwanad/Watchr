@@ -10,11 +10,11 @@ Server component [here](https://github.com/lucyyu24/cassandre-server).
 Devpost [here](http://devpost.com/software/watchr-1s3cqu)
 
 ## Screenshots
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/1.png " style="width: 200px;"/>
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/2.png " style="width: 200px;"/>
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/3.png " style="width: 200px;"/>
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/4.png " style="width: 200px;"/>
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/5.png " style="width: 200px;"/>
+<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/1.png " width="300"/>
+<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/2.png " width="300"/>
+<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/3.png " width="300"/>
+<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/4.png " width="300"/>
+<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/5.png " swidth="300"/>
 <img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/7.jpg" />
 <img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/7.jpg" />
 <img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/8.jpg" />
