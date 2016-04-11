@@ -18,7 +18,3 @@ Devpost [here](http://devpost.com/software/watchr-1s3cqu)
 <img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/4.png " width="340" />
 #### Web
 <img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/6.png" />
-#### Design draft
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/7.jpg" />
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/8.jpg" />
-<img src="https://raw.githubusercontent.com/marwanad/Watchr/master/screenshots/9.jpg" />
